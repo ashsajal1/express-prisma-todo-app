@@ -1,11 +1,18 @@
 import express, { Express } from "express";
 import prisma from "./libs/prisma";
 import bodyParser from "body-parser";
+import todoRouter from "./routers/todoRouter";
 
 const app: Express = express();
 
 app.use(bodyParser.json());
-const port = 3000;
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
+app.use('/api', todoRouter)
+app.get('/', (req, res) => {
+  res.render('index.ejs')
+})
 
 app.post("/users", async (req, res) => {
   try {
@@ -64,7 +71,7 @@ app.get("/users/:userId/todos", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
 
