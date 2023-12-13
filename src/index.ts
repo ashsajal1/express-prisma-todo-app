@@ -1,7 +1,7 @@
 import express, { Express } from "express";
-import prisma from "./libs/prisma";
 import bodyParser from "body-parser";
-import todoRouter from "./routers/todoRouter";
+
+import router from "./routers";
 
 const app: Express = express();
 
@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-app.use('/api', todoRouter)
+app.use('/api', router)
+
 app.get('/', (req, res) => {
   res.render('index.ejs')
 })
