@@ -54,7 +54,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 
-//create user
+//update user
 export const editUser = async (req: Request, res: Response) => {
   try {
     const { name, email } = req.body;
@@ -74,6 +74,30 @@ export const editUser = async (req: Request, res: Response) => {
       ok: true,
       message: "User was successfully updated.",
       todo: updatedUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      error: error,
+    });
+  }
+};
+
+//delete user
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await prisma.user.delete({
+      where: {
+        id: parseInt(id),
+      }
+    })
+
+    res.json({
+      ok: true,
+      message: "User was successfully deleted.",
+      todo: deletedUser,
     });
   } catch (error) {
     res.status(400).json({
