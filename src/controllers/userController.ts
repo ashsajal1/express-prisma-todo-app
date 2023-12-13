@@ -25,6 +25,7 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+//create user
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email } = req.body;
@@ -39,7 +40,40 @@ export const createUser = async (req: Request, res: Response) => {
     res.json({
       ok: true,
       message: "User was successfully created.",
-      todo: newUser,
+      user: newUser,
+      body: {name, email}
+    });
+  } catch (error) {
+    const { name, email } = req.body;
+    res.status(400).json({
+      ok: false,
+      error: error,
+      body: {name, email},
+    });
+  }
+};
+
+
+//create user
+export const editUser = async (req: Request, res: Response) => {
+  try {
+    const { name, email } = req.body;
+    const { id } = req.params;
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        name,
+        email,
+      },
+    });
+
+    res.json({
+      ok: true,
+      message: "User was successfully updated.",
+      todo: updatedUser,
     });
   } catch (error) {
     res.status(400).json({
