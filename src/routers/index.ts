@@ -5,6 +5,6 @@ import userRouter from "./userRouter";
 const router = Router();
 
 router.use("/", todoRouter)
-router.use("/", userRouter)
+router.use("/user", userRouter)
 
 export default router;
